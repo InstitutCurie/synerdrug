@@ -1,10 +1,11 @@
 #' Hill function
 #'
-#' @param x
-#' @param Emax
-#' @param E0
-#' @param n
-#' @param EC50
+#' @param x dose to be evaluated
+#' @param Emax Emax parameter of hill function
+#' @param E0 \eqn{E_0} parameter of hill function
+#' @param n slope parameter of hill function
+#' @param EC50 EC50 parameter of hill function
+
 #'
 #' @return numeric
 #' @export

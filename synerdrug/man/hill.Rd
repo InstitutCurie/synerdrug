@@ -7,15 +7,15 @@
 hill(x, Emax, E0, n, EC50)
 }
 \arguments{
-\item{x}{}
+\item{x}{dose to be evaluated}
 
-\item{Emax}{}
+\item{Emax}{Emax parameter of hill function}
 
-\item{E0}{}
+\item{E0}{\eqn{E_0} parameter of hill function}
 
-\item{n}{}
+\item{n}{slope parameter of hill function}
 
-\item{EC50}{}
+\item{EC50}{EC50 parameter of hill function}
 }
 \value{
 numeric

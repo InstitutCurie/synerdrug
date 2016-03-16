@@ -7,3 +7,4 @@ Maintainer: Pierre Gestraud <pierre.gestraud@curie.fr>
 Description: Analysis of drug combinations
 License: What license is it under?
 LazyData: TRUE
+Imports: ggplot2

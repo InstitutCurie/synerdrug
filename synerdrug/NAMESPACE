@@ -2,3 +2,4 @@
 
 export(hill)
 export(revhill)
+import(ggplot2)
