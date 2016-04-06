@@ -3,6 +3,7 @@ themeNobg <- function(){
           legend.background = element_blank())
 }
 
+
 theme4Heatmap <- function(){
     theme(panel.grid.minor = element_blank(),
           panel.grid.major = element_blank(),
@@ -12,9 +13,6 @@ theme4Heatmap <- function(){
           legend.position = "none"
     ) + themeNobg()
 }
-
-
-
 
 
 matrixPlot <- function(d, co, ro, addVal=FALSE, contour=FALSE){

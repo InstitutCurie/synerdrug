@@ -7,4 +7,11 @@ Maintainer: Pierre Gestraud <pierre.gestraud@curie.fr>
 Description: Analysis of drug combinations.
 License: GPL
 LazyData: TRUE
-Imports: ggplot2, shiny, RColorBrewer, akima, minpack.lm
+Imports:
+    methods,
+    ggplot2,
+    shiny,
+    RColorBrewer,
+    akima,
+    minpack.lm
+RoxygenNote: 5.0.1
