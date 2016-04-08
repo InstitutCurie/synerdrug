@@ -60,3 +60,7 @@ makeDrugSyn <- function(data, doses){
     validObject(object)
     return(object)
 }
+
+
+
+

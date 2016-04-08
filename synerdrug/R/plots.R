@@ -24,19 +24,34 @@ matrixPlot <- function(d, co, ro, addVal=FALSE, contour=FALSE){
 }
 
 
-parPlot <- function(d, A, B){
+parPlot <- function(object, ref = 1){
+    d <- getData(object)
+    drugNames <- setdiff(colnames(d), c("value", "rep"))
+    B <- drugNames[ref]
+    A <- drugNames[-ref]
     d[, B] <- as.factor(d[, B])
-    g <- ggplot(d, aes_string(x = A, y = "value", color = B, group = B)) + geom_point() + geom_line()
+    g <- ggplot(d, aes_string(x = A, y = "value", color = B, group = B)) + geom_point() + geom_line() + scale_x_log10()
     return(g)
 }
 
 
 
 ## courbe reponse individuelle
-respPlot <- function(d, drug){
+respPlot <- function(object, drug, xlog = TRUE){
+    d <- getData(object)
+    d <- d[d[, setdiff(colnames(d), c("value", "rep", drug))] == 0, ]
     g <- ggplot(d, aes_string(x = drug, y = "value"))
     if (any(colnames(d) == "rep")) {
         g <- g + geom_point(aes(shape = factor(rep))) + scale_shape_discrete(name = "Replicate")
     } else g <- g + geom_point()
+    if (xlog) g <- g + scale_x_log10()
+    if (length(respInd(object))) {
+        mod <- mod2ll4(respInd(object)[[drug]])
+        g <- g +  stat_function(fun = mod, color = "red")
+    }
     return(g)
 }
+
+
+
+

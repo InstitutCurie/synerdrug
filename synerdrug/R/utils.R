@@ -33,3 +33,12 @@ mySeq <- function(doses, n){
     return(unique(as.vector(apply(d, 1, function(x, n) seq(x[1], x[2], length.out = n), n))))
 }
 
+
+
+## convert mod object to hill function
+mod2ll4 <- function(mod){
+    coef <- coefficients(mod)
+    f <- function(x) hill(x, coef[1], coef[2], coef[4], coef[3])
+    return(f)
+}
+
