@@ -1,5 +1,4 @@
 ## fct pour trouver couples de A,B qui donnent une reponse attendue
-## utilisation de uniroot via predict(gam) - expected
 findPairs <- function(y, d, val, rangeRoot){
     fun2min <- function(x, d, y, val){
         interp(d$PosB, d$PosA, d$value, duplicate = "mean", xo = x, yo = y, linear = TRUE)$z - val

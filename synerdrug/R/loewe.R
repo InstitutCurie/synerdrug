@@ -21,8 +21,8 @@ resLoewe <- function(a, b, EmaxA, EmaxB, E0A, E0B, nA, nB, EC50A, EC50B){
 #' @export
 #'
 #' @examples NULL
-Loewe <- function(a, b, modA, modB){
-    resLoewe(a, b, EmaxA = coefficients(modA)["Emax"], EmaxB = coefficients(modB)["Emax"],
+loewe <- function(a, b, modA, modB){
+   resLoewe(a, b, EmaxA = coefficients(modA)["Emax"], EmaxB = coefficients(modB)["Emax"],
              E0A = coefficients(modA)["E0"], E0B = coefficients(modB)["E0"],
              nA = coefficients(modA)["n"], nB = coefficients(modB)["n"],
              EC50A = coefficients(modA)["EC50"], EC50B = coefficients(modB)["EC50"])
@@ -30,7 +30,7 @@ Loewe <- function(a, b, modA, modB){
 
 
 tryLoewe <- function(a, b, modA, modB){
-    t <- try(Loewe(a, b, modA, modB))
+    t <- try(loewe(a, b, modA, modB), silent = TRUE)
     if (class(t) == "try-error") res <- NA
     else res <- t
     return(res)
