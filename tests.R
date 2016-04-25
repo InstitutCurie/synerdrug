@@ -1,3 +1,6 @@
+require(reshape2)
+
+
 d <- read.table("../longData.txt", header = TRUE)
 
 
@@ -91,20 +94,60 @@ interpol <- function(x, y, z, xo, yo){
     return(interp)
 }
 
+interpol2 <- function(x, y, z, xo, yo){
+    ## z matrice de données
+    ## x, y coordonnées de la grille
+    ## from fields::interp.surface
+    nx <- length(x)
+    ny <- length(y)
+    lx <- approx(x, 1:nx, xo)$y
+    ly <- approx(y, 1:ny, yo)$y
+    lx1 <- floor(lx)
+    ly1 <- floor(ly)
+    ex <- lx - lx1
+    ey <- ly - ly1
+    ex[lx1 == nx] <- 1
+    ey[ly1 == ny] <- 1
+    lx1[lx1 == nx] <- nx - 1
+    ly1[ly1 == ny] <- ny - 1
+    interp <- z[cbind(lx1, ly1)] * (1 - ex) * (1 - ey) +
+        z[cbind(lx1 + 1, ly1)] * ex * (1 - ey) +
+        z[cbind(lx1, ly1 + 1)] * (1 - ex) * ey +
+        z[cbind(lx1 + 1, ly1 + 1)] * ex * ey
+    return(interp)
+}
 
 pos <- expand.grid(xo, yo)
 
 my <- interpol(x, y, z, pos$Var1, pos$Var2)
+my2 <- interpol2(x, y, z, pos$Var1, pos$Var2)
 my <- cbind(pos, my)
+my <- cbind(my, my2)
 
-
-zz<-melt(z)
-ak<-melt(akima::interp(zz$Var1,zz$Var2,zz$value, xo, yo, linear = TRUE)$z)
+zz <- melt(z)
+ak <- melt(akima::interp(zz$Var1,zz$Var2,zz$value, xo, yo, linear = TRUE)$z)
 ak$Var1 <- xo[ak$Var1]
 ak$Var2 <- yo[ak$Var2]
 
 a <- merge(ak, my)
 
+## tests sur vrai données
+xo <- yo <- mySeq(sort(unique(d2$A)),36)
+pos <- expand.grid(xo, yo)
+ak <- melt(akima::interp(d2$A, d2$B, d2$value, xo, yo, linear = TRUE)$z)
+ak$Var1 <- xo[ak$Var1]
+ak$Var2 <- yo[ak$Var2]
+my <- interpol(sort(unique(d2$A)), sort(unique(d2$B)), matrix(d2$value, ncol=6), pos$Var1, pos$Var2)
+my2 <- interpol2(sort(unique(d2$A)), sort(unique(d2$B)), matrix(d2$value, ncol=6), pos$Var1, pos$Var2)
+my <- cbind(pos, my)
+my <- cbind(my,my2)
+a <- merge(ak, my)
 
+ggplotly(ggplot(a, aes(x=value, y=my)) + geom_point())
+ggplotly(ggplot(a, aes(x=Var1, y=Var2, fill=value-my)) + geom_tile()+scale_x_log10()+scale_y_log10())
 
+a$pos1 <- match(a$Var1, xo)
+a$pos2 <- match(a$Var2, yo)
+
+ggplotly(ggplot(a, aes(x=pos1, y=pos2, fill=value-my)) + geom_tile())
 
