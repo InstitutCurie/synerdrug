@@ -46,7 +46,12 @@ EDpred <- function(E, resnls){
 estimateHill <- function(d){
     mod <- nlsLM(value ~ E0 + (Emax - E0) / (1 + (EC50 / conc) ^ n),
                 start = list(Emax = 1, E0 = 0, EC50 = median(d[,"conc"]), n = 1),
-                data = d)
+                data = d,lower=c(0,0,0,-Inf))
     return(mod)
 }
+
+
+
+
+
 

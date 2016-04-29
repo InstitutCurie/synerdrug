@@ -1,0 +1,57 @@
+* S4 class
+** TODO validity
+** TODO show
+** makeDrugSyn
+** makeRespInd
+*** TODO ajouter bornes aux paramètres
+*** TODO vérifier sens E0 et Emax
+** DONE computeDataMean
+** DONE computeBliss
+** DONE computeHSA
+** DONE computeLoewe
+** DONE computeChou
+** TODO range values
+** TODO order data by Pos1, Pos2
+
+* indices
+** HSA
+** Bliss
+** Loewe
+** Chou
+
+* data
+** TODO example dataset
+
+* get/setter
+** DONE doses
+** TODO drug names
+*** TODO adapter noms des drogues dans les tableaux
+** DONE content
+** expData
+*** TODO trouver meilleur nom
+** meanData
+*** TODO trouver meilleur nom
+** respInd
+*** TODO trouver meilleur nom
+ 
+
+    
+* plots
+** generic for synDrug
+** TODO plotHeatmap
+*** TODO gradient couleur selon type
+*** TODO valeurs extremes dans gradient
+*** DONE axes names
+*** TODO axes
+*** DONE main
+** TODO plotSurface
+*** TODO couleurs à fixer
+*** DONE range z 
+** TODO check sens matrice
+** TODO respPlot
+** TODO parallel plot
+*** TODO axes x à retravailler
+** TODO isobologram
+** TODO median effect
+
+* Shiny

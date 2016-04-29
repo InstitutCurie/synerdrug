@@ -42,3 +42,30 @@ mod2ll4 <- function(mod){
     return(f)
 }
 
+
+
+
+interpol <- function(x, y, z, xo, yo){
+    ## z matrice de données
+    ## x, y coordonnées de la grille
+    ## from fields::interp.surface
+    nx <- length(x)
+    ny <- length(y)
+    lx <- approx(x, 1:nx, xo)$y
+    ly <- approx(y, 1:ny, yo)$y
+    lx1 <- floor(lx)
+    ly1 <- floor(ly)
+    ex <- lx - lx1
+    ey <- ly - ly1
+    ex[lx1 == nx] <- 1
+    ey[ly1 == ny] <- 1
+    lx1[lx1 == nx] <- nx - 1
+    ly1[ly1 == ny] <- ny - 1
+    interp <- z[cbind(lx1, ly1)] * (1 - ex) * (1 - ey) +
+        z[cbind(lx1 + 1, ly1)] * ex * (1 - ey) +
+        z[cbind(lx1, ly1 + 1)] * (1 - ex) * ey +
+        z[cbind(lx1 + 1, ly1 + 1)] * ex * ey
+    return(interp)
+}
+
+

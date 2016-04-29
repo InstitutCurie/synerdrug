@@ -1,9 +1,13 @@
 ## Loewe simple, resolution de equation a/A+b/B=1
 resLoewe <- function(a, b, EmaxA, EmaxB, E0A, E0B, nA, nB, EC50A, EC50B){
     fun2min <- function(x, a, b, EmaxA, EmaxB, E0A, E0B, nA, nB, EC50A, EC50B){
-        a / (revhill(x, EmaxA, E0A, nA, EC50A)) + b / (revhill(x, EmaxB, E0B, nB, EC50B)) - 1
+        A <- a / (revhill(x, EmaxA, E0A, nA, EC50A))
+        if (!is.finite(A)) A <- 0
+        B <- b / (revhill(x, EmaxB, E0B, nB, EC50B))
+        if (!is.finite(B)) B <- 0
+        return(A + B - 1)
     }
-    res <- uniroot(fun2min, sort(c(E0A, E0B, EmaxA, EmaxB))[2:3],
+    res <- uniroot(fun2min, sort(c(E0A, E0B, EmaxA, EmaxB))[c(2, 3)] + c(1e-9, -1e-9),  ## add eps to range to compute f at extremas
                    a = a, b = b, EmaxA = EmaxA, EmaxB = EmaxB, E0A = E0A,
                    E0B = E0B, nA = nA, nB = nB, EC50A = EC50A, EC50B = EC50B,
                    extendInt = "yes")$root

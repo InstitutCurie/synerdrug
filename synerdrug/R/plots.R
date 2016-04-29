@@ -3,7 +3,6 @@ themeNobg <- function(){
           legend.background = element_blank())
 }
 
-
 theme4Heatmap <- function(){
     theme(panel.grid.minor = element_blank(),
           panel.grid.major = element_blank(),
@@ -14,7 +13,6 @@ theme4Heatmap <- function(){
     ) + themeNobg()
 }
 
-
 matrixPlot <- function(d, co, ro, addVal=FALSE, contour=FALSE){
     g <- ggplot(d, aes_string(x = co, y = ro, fill = "value", z = "value")) + geom_tile()
     g <- g + scale_fill_gradientn(colours = rev(brewer.pal(11, "Spectral")), breaks = seq(0,1, by = 0.2), limits = c(0,1))
@@ -23,7 +21,37 @@ matrixPlot <- function(d, co, ro, addVal=FALSE, contour=FALSE){
     return(g)
 }
 
+plotHeatmap <- function(object, type = c("exp", "HSA", "Chou", "Bliss", "Loewe", "LoeweExcess"), addVal = TRUE, contour = FALSE, main = ""){
+    data <- meanData(object)
+    d <- data[, c("Pos1", "Pos2", type)]
+    colnames(d)[3] <- "value"
+    g <- matrixPlot(d, "Pos1", "Pos2", addVal = addVal, contour = contour)
+    drugs <- drugNames(object)
+    g <- g + xlab(drugs[1]) + ylab(drugs[2])
+    g <- g + ggtitle(main)
+    g <- g + theme4Heatmap()
+    ## TODO: gérer les couleurs en fct du type
+    return(g)
+}
 
+plotSurface <- function(object, ...) {
+    data <- meanData(object)
+    doses <- doses(object)
+    drugs <- drugNames(object)
+    xo <- mySeq(1:max(data[, "Pos1"]), n = 10)
+    yo <- mySeq(1:max(data[, "Pos2"]), n = 10)
+    pos <- expand.grid(xo, yo)
+    z <- interpol(x = 1:max(data[, "Pos1"]), y = 1:max(data[, "Pos2"]), z = matrix(data[, "x"], ncol = length(doses[[2]])), xo = pos$Var1, yo = pos$Var2)
+    z <- matrix(z, ncol = length(yo))
+    nbcol <- 11
+    color <- rev(brewer.pal(nbcol, "Spectral"))
+    nrz <- nrow(z)
+    ncz <- ncol(z)
+    zfacet <- z[-1, -1] + z[-1, -ncz] + z[-nrz, -1] + z[-nrz, -ncz]
+    facetcol <- cut(zfacet, nbcol)
+    surf <- list(x = xo / max(xo), y = yo/max(yo), z = z)
+    persp(surf, col = color[facetcol], box = TRUE, axes = TRUE, border = "gray20", scale = FALSE, xlab = drugs[1], ylab = drugs[2], zlab = content(object), ...)
+}
 
 
 parPlot <- function(object, ref = 1){
@@ -54,6 +82,9 @@ respPlot <- function(object, drug, xlog = TRUE){
     }
     return(g)
 }
+
+
+
 
 
 
