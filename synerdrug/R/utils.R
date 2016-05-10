@@ -69,3 +69,17 @@ interpol <- function(x, y, z, xo, yo){
 }
 
 
+
+checkTypeHill <- function(x){
+    int <- intersect(c(4, 3), x)
+    if (length(int) == 0) stop("typeHill must be 3 or 4")
+    return(int[1])
+}
+
+
+trimvalues <- function(x, limits) {
+    x <- ifelse(x < limits[1], limits[1], x)
+    x <- ifelse(x > limits[2], limits[2], x)
+    return(x)
+}
+

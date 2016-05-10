@@ -43,10 +43,14 @@ EDpred <- function(E, resnls){
 }
 
 
-estimateHill <- function(d){
-    mod <- nlsLM(value ~ E0 + (Emax - E0) / (1 + (EC50 / conc) ^ n),
+estimateHill <- function(d, nbParam = c(4, 3)){
+    nbParam <- checkTypeHill(nbParam)
+    if (nbParam == 4) mod <- nlsLM(value ~ E0 + (Emax - E0) / (1 + (EC50 / conc) ^ n),
                 start = list(Emax = 1, E0 = 0, EC50 = median(d[,"conc"]), n = 1),
-                data = d,lower=c(0,0,0,-Inf))
+                data = d, lower = c(0, 0, 0, -Inf))
+    else mod <- nlsLM(value ~ E0 + (Emax - E0) / (1 + (EC50 / conc) ^ n),
+                      start = list(Emax = 1, E0 = 0, EC50 = median(d[,"conc"]), n = 1),
+                      data = d, lower = c(0, 0, 0, -Inf), upper = c(+Inf, 0, +Inf, +Inf))
     return(mod)
 }
 

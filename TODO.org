@@ -2,25 +2,37 @@
 ** TODO validity
 ** TODO show
 ** makeDrugSyn
-** makeRespInd
-*** TODO ajouter bornes aux paramètres
+** TODO makeRespInd
+*** DONE ajouter bornes aux paramètres
+bornes inf à 0 
 *** TODO vérifier sens E0 et Emax
+*** DONE choix modèle 4 ou 3 paramètres
 ** DONE computeDataMean
 ** DONE computeBliss
 ** DONE computeHSA
 ** DONE computeLoewe
 ** DONE computeChou
-** TODO range values
+** DONE range values
+*** transformation des pourcentages en fraction			     :DETAIL:
 ** TODO order data by Pos1, Pos2
+   
+
+
+* I/O
+** TODO long data
+** TODO matrix data
+** TODO excel data
 
 * indices
 ** HSA
 ** Bliss
 ** Loewe
 ** Chou
-
+** ZIP 								   :QUESTION:
+   
 * data
-** TODO example dataset
+** TODO example dataset 
+
 
 * get/setter
 ** DONE doses
@@ -33,25 +45,30 @@
 *** TODO trouver meilleur nom
 ** respInd
 *** TODO trouver meilleur nom
- 
-
-    
+** DONE typeHill 
+   
 * plots
 ** generic for synDrug
-** TODO plotHeatmap
-*** TODO gradient couleur selon type
-*** TODO valeurs extremes dans gradient
+** DONE plotHeatmap
+*** DONE gradient couleur selon type
+*** DONE valeurs extremes dans gradient
 *** DONE axes names
-*** TODO axes
+*** DONE axes
 *** DONE main
 ** TODO plotSurface
+*** voir package krigging					   :QUESTION:
+*** wireframe de lattice					   :QUESTION:
 *** TODO couleurs à fixer
 *** DONE range z 
 ** TODO check sens matrice
 ** TODO respPlot
-** TODO parallel plot
-*** TODO axes x à retravailler
+** DONE parallel plot
+*** DONE axes x à retravailler
 ** TODO isobologram
+*** DONE lineaire
+*** DONE Steel et Peckham
 ** TODO median effect
+   
+   
 
 * Shiny

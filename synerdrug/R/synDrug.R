@@ -1,4 +1,4 @@
-setClass("DrugSyn", representation(data = "data.frame", doses = "list", respInd = "list", drugNames = "vector", dataMean = "data.frame", content = "character"))
+setClass("DrugSyn", representation(data = "data.frame", doses = "list", respInd = "list", drugNames = "vector", dataMean = "data.frame", content = "character", typeHill = "numeric", range = "character"))
 
 setValidity("DrugSyn", function(object){
 
@@ -57,12 +57,25 @@ setReplaceMethod("drugNames", signature(object = "DrugSyn", value = "vector"), f
     return(object)
 })
 
-makeDrugSyn <- function(data, doses, content = c("Death", "Survival")){
+setMethod("typeHill", signature(object = "DrugSyn"), function(object){
+    object@typeHill
+    })
+setReplaceMethod("typeHill", signature(object = "DrugSyn", value = "numeric"), function(object, value){
+    object@typeHill <- value
+    validObject(object)
+    return(object)
+})
+
+
+makeDrugSyn <- function(data, doses, content = c("Death", "Survival"), typeHill = c(4, 3), range = c("Fraction", "Percentage")){
     drugNames <- names(doses)
     content <- match.arg(content, c("Death", "Survival"))
+    typeHill <- checkTypeHill(typeHill)
+    range <- match.arg(range, c("Fraction", "Percentage"))
     data[, "Pos1"] <- match(data[, drugNames[1]], sort(doses[[1]]))
     data[, "Pos2"] <- match(data[, drugNames[2]], sort(doses[[2]]))
-    object <- new("DrugSyn", data = data, doses = doses, drugNames = names(doses))
+    if (range == "Percentage") data[, "value"] <- data[, "value"] / 100
+    object <- new("DrugSyn", data = data, doses = doses, drugNames = names(doses), typeHill = typeHill, range = range)
     content(object) <- content
     drugNames(object) <- drugNames
     object <- makeRespInd(object)
@@ -82,8 +95,9 @@ setMethod("makeRespInd", signature(object = "DrugSyn"), function(object){
     dataB <- data[data[drugs[1]] == 0, ]
     dataB[, drugs[1]] <- NULL
     colnames(dataA)[3] <- colnames(dataB)[3] <- "conc"
-    respA <- estimateHill(dataA)
-    respB <- estimateHill(dataB)
+    nbParam <- typeHill(object)
+    respA <- estimateHill(dataA, nbParam)
+    respB <- estimateHill(dataB, nbParam)
     resp <- list(respA, respB)
     names(resp) <- drugs
     respInd(object) <- resp
@@ -101,6 +115,7 @@ setMethod("computeDataMean", signature(object = "DrugSyn"), function(object){
     dataMean <- aggregate(data$value, by = listToAg, mean)
     dataMean[, "Pos1"] <- match(dataMean[, drugs[1]], sort(unique(data[, drugs[1]])))
     dataMean[, "Pos2"] <- match(dataMean[, drugs[2]], sort(unique(data[, drugs[2]])))
+    colnames(dataMean)[3] <- "value"
     ## predict values for individual responses
     respInd <- respInd(object)
     if (is.null(respInd)) stop("Please compute individual responses")
@@ -119,7 +134,7 @@ setMethod("computeBliss", signature(object = "DrugSyn"), function(object){
     drugs <- drugNames(object)
     pred1 <- data[, paste0("pred", drugs[1])]
     pred2 <- data[, paste0("pred", drugs[2])]
-    data$Bliss <- (pred1 + pred2 - pred1 * pred2) / data$x
+    data$Bliss <- (pred1 + pred2 - pred1 * pred2) / data[, "value"]
     meanData(object) <- data
     validObject(object)
     return(object)
@@ -133,7 +148,7 @@ setMethod("computeHSA", signature(object = "DrugSyn"), function(object){
     if (is.null(data)) {
         stop("Please compute meanData before computing Bliss")
     }
-    data$HSA <- pminmax(data[, paste0("pred", drugs[1])], data[, paste0("pred", drugs[2])]) / data$x
+    data$HSA <- pminmax(data[, paste0("pred", drugs[1])], data[, paste0("pred", drugs[2])]) / data[, "value"]
     meanData(object) <- data
     validObject(object)
     return(object)
@@ -155,7 +170,7 @@ setMethod("computeLoewe", signature(object = "DrugSyn"), function(object){
     }
     data$Loewe <- mapply(tryLoewe, a = data[, drugs[1]], b = data[, drugs[2]], MoreArgs = list(modA = mods[[1]], modB = mods[[2]]))
     data$Loewe <- ifelse(is.na(data$Loewe), pminmax(data[, paste0("pred", drugs[1])], data[, paste0("pred", drugs[2])]), data$Loewe)
-    data$LoeweExcess <- data$x - data$Loewe
+    data$LoeweExcess <- data[, "value"] - data[, "Loewe"]
     meanData(object) <- data
     validObject(object)
     return(object)
@@ -174,7 +189,8 @@ setMethod("computeChou", signature(object = "DrugSyn"), function(object){
     }
     dose1 <- data[, drugs[1]]
     dose2 <- data[, drugs[2]]
-    data$Chou <- dose1 / EDpred(dose1, mods[[1]]) + dose2 / EDpred(dose2, mods[[2]])
+    value <- data[, "value"]
+    data$Chou <- dose1 / EDpred(value, mods[[1]]) + dose2 / EDpred(value, mods[[2]])
     meanData(object) <- data
     validObject(object)
     return(object)
@@ -197,7 +213,7 @@ setMethod("Chou", signature(object = "DrugSyn"), function(object){
 extractData <- function(object, what){
     data <- meanData(object)
     drugs <- drugNames(object)
-    d <- data[, c(drugs, paste0("pred", drugs), "x", what)]
+    d <- data[, c(drugs, paste0("pred", drugs), "value", what)]
     return(d)
 }
 
@@ -213,14 +229,14 @@ setReplaceMethod("content", signature(object = "DrugSyn", value = "character"), 
 
 
 #############################################################
-setMethod("plot", signature(x = "DrugSyn"), function(x, what = c("heatmap", "parallel", "ind", "surface"), ...){
-    what <- match.arg(what, c("heatmap", "parallel", "ind", "surface"))
-    if (what == "surface") {
+setMethod("plot", signature(x = "DrugSyn"), function(x, type = c("heatmap", "parallel", "ind", "surface"), ...){
+    type <- match.arg(type, c("heatmap", "parallel", "ind", "surface"))
+    if (type == "surface") {
         plotSurface(x, ...)
         return(invisible())
     }
-    if (what == "heatmap") g <- plotHeatmap(x, ...)
-    if (what == "parallel") g <- parPlot(x, ...)
-    if (what == "ind") g <- respPlot(x, ...)
+    if (type == "heatmap") g <- plotHeatmap(x, ...)
+    if (type == "parallel") g <- parPlot(x, ...)
+    if (type == "ind") g <- respPlot(x, ...)
     return(g)
     })

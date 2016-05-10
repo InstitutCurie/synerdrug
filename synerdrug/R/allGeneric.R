@@ -87,3 +87,10 @@ setGeneric("content<-", function(object, value){
     standardGeneric("content<-")
 })
 
+setGeneric("typeHill", function(object){
+    standardGeneric("typeHill")
+})
+setGeneric("typeHill<-", function(object, value){
+    standardGeneric("typeHill<-")
+})
+

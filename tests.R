@@ -12,13 +12,15 @@ d2$A <- d2$V1
 d2$rep <- 1
 d2 <- d2[,colnames(d)]
 
-object <- new("DrugSyn", data = d2, doses = list(A = unique(d2$A), B = unique(d2$B)), content = "Death", drugNames=c("A", "B"))
+object <- new("DrugSyn", data = d2, doses = list(A = unique(d2$A), B = unique(d2$B)), content = "Death", drugNames = c("A", "B"))
 object <- makeRespInd(object)
 
 
-colnames(d2) <- c("value", "rep", "AA", "BB")
+#colnames(d2) <- c("value", "rep", "AA", "BB")
 
-object <- makeDrugSyn(d, doses = list(A = unique(d$A), B = unique(d$B)), content = "Death")
+object <- makeDrugSyn(d2, doses = list(A = sort(unique(d$A)), B = sort(unique(d$B))), content = "Death", typeHill = 4)
+#object4 <- makeDrugSyn(d, doses = list(A = unique(d$A), B = unique(d$B)), content = "Death", typeHill = 4)
+
 #object <- computeDataMean(object)
 #object <- computeBliss(object)
 #object <- computeHSA(object)
@@ -94,6 +96,9 @@ interpol <- function(x, y, z, xo, yo){
                z[cbind(lx1 + 1, ly1 + 1)] * ex * ey
     return(interp)
 }
+
+
+## test kriging
 
 
 pos <- expand.grid(xo, yo)
@@ -189,5 +194,8 @@ res <- uniroot(fun2min, c(0,1),
                extendInt = "yes")$root
 
 ggplotly(plot(object, what="heatmap", type="x", addVal=TRUE))
+
+
+
 
 
