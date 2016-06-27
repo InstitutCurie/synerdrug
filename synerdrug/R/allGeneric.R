@@ -1,4 +1,3 @@
-
 ## get/set doses slot
 setGeneric("doses", function(object){
     standardGeneric("doses")

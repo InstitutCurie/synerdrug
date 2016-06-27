@@ -36,8 +36,8 @@ mySeq <- function(doses, n){
 
 
 ## convert mod object to hill function
-mod2ll4 <- function(mod){
-    coef <- coefficients(mod)
+mod2ll4 <- function(coef){
+    ##coef <- coefficients(mod)
     f <- function(x) hill(x, coef[1], coef[2], coef[4], coef[3])
     return(f)
 }

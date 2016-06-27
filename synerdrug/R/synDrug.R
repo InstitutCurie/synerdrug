@@ -1,3 +1,19 @@
+#' Title
+#'
+#' @slot data data.frame.
+#' @slot doses list.
+#' @slot respInd list.
+#' @slot drugNames vector.
+#' @slot dataMean data.frame.
+#' @slot content character.
+#' @slot typeHill numeric.
+#' @slot range character.
+#'
+#' @return
+#' @export
+#' @exportClass DrugSyn
+#'
+#' @examples
 setClass("DrugSyn", representation(data = "data.frame", doses = "list", respInd = "list", drugNames = "vector", dataMean = "data.frame", content = "character", typeHill = "numeric", range = "character"))
 
 setValidity("DrugSyn", function(object){
@@ -7,12 +23,22 @@ setValidity("DrugSyn", function(object){
 
 setMethod("show", signature(object = "DrugSyn"),
           function(object){
-              print(dim(expData(object)))
-              print(doses(object))
+              cat("DrugSyn object\n")
+              cat("drugs:", drugNames(object))
+              #print(dim(expData(object)))
+              #print(doses(object))
           })
 
 
 ## doses
+#' Title
+#'
+#' @param object DrugSyn.
+#'
+#' @return
+#' @export
+#'
+#' @examples
 setMethod("doses", signature(object = "DrugSyn"), function(object){
     object@doses
 })
@@ -39,6 +65,14 @@ setReplaceMethod("meanData", signature(object = "DrugSyn", value = "data.frame")
     return(object)
 })
 
+#' Title
+#'
+#' @param object DrugSyn.
+#'
+#' @return
+#' @export
+#'
+#' @examples
 setMethod("respInd", signature(object = "DrugSyn"), function(object){
     object@respInd
 })
@@ -48,11 +82,29 @@ setReplaceMethod("respInd", signature(object = "DrugSyn", value = "list"), funct
     return(object)
 })
 
+#' Title
+#'
+#' @param object DrugSyn.
+#'
+#' @return
+#' @export
+#'
+#' @examples
 setMethod("drugNames", signature(object = "DrugSyn"), function(object){
     object@drugNames
 })
 setReplaceMethod("drugNames", signature(object = "DrugSyn", value = "vector"), function(object, value){
+    oldNames <- drugNames(object)
     object@drugNames <- value
+    names(object@doses) <- value
+    names(object@respInd) <- value
+    coln <- colnames(expData(object))
+    names(value) <- oldNames
+    colnames(expData(object))[coln %in% oldNames] <- value[coln[coln %in% oldNames]]
+    coln <- colnames(meanData(object))
+    colnames(meanData(object))[coln %in% oldNames] <- value
+    names(value) <- paste0("pred", oldNames)
+    colnames(meanData(object))[coln %in% paste0("pred", oldNames)] <- paste0("pred", value[coln[coln %in% paste0("pred", oldNames)]])
     validObject(object)
     return(object)
 })
@@ -67,23 +119,36 @@ setReplaceMethod("typeHill", signature(object = "DrugSyn", value = "numeric"), f
 })
 
 
+#' Create DrugSyn object
+#'
+#' @param data
+#' @param doses
+#' @param content
+#' @param typeHill
+#' @param range
+#'
+#' @return
+#' @export
+#'
+#' @examples
 makeDrugSyn <- function(data, doses, content = c("Death", "Survival"), typeHill = c(4, 3), range = c("Fraction", "Percentage")){
     drugNames <- names(doses)
     content <- match.arg(content, c("Death", "Survival"))
     typeHill <- checkTypeHill(typeHill)
     range <- match.arg(range, c("Fraction", "Percentage"))
+    data <- data[order(data[, drugNames[2]], data[, drugNames[1]]), ]
     data[, "Pos1"] <- match(data[, drugNames[1]], sort(doses[[1]]))
     data[, "Pos2"] <- match(data[, drugNames[2]], sort(doses[[2]]))
     if (range == "Percentage") data[, "value"] <- data[, "value"] / 100
     object <- new("DrugSyn", data = data, doses = doses, drugNames = names(doses), typeHill = typeHill, range = range)
     content(object) <- content
-    drugNames(object) <- drugNames
     object <- makeRespInd(object)
     object <- computeDataMean(object)
     object <- computeHSA(object)
     object <- computeBliss(object)
     object <- computeLoewe(object)
     object <- computeChou(object)
+    drugNames(object) <- drugNames
     return(object)
 }
 
@@ -119,12 +184,13 @@ setMethod("computeDataMean", signature(object = "DrugSyn"), function(object){
     ## predict values for individual responses
     respInd <- respInd(object)
     if (is.null(respInd)) stop("Please compute individual responses")
-    dataMean[, paste0("pred", drugs[1])] <- predict(respInd[[drugs[1]]], list(conc = dataMean[, drugs[1]]))
-    dataMean[, paste0("pred", drugs[2])] <- predict(respInd[[drugs[2]]], list(conc = dataMean[, drugs[2]]))
+    dataMean[, paste0("pred", drugs[1])] <- mod2ll4(respInd[[drugs[1]]])(dataMean[, drugs[1]])
+    dataMean[, paste0("pred", drugs[2])] <- mod2ll4(respInd[[drugs[2]]])(dataMean[, drugs[2]])
     meanData(object) <- dataMean
     validObject(object)
     return(object)
 })
+
 
 setMethod("computeBliss", signature(object = "DrugSyn"), function(object){
     data <- meanData(object)
@@ -154,7 +220,6 @@ setMethod("computeHSA", signature(object = "DrugSyn"), function(object){
     return(object)
 })
 
-
 setMethod("computeLoewe", signature(object = "DrugSyn"), function(object){
     data <- meanData(object)
     mods <- respInd(object)
@@ -175,7 +240,6 @@ setMethod("computeLoewe", signature(object = "DrugSyn"), function(object){
     validObject(object)
     return(object)
     })
-
 
 setMethod("computeChou", signature(object = "DrugSyn"), function(object){
     data <- meanData(object)
@@ -217,6 +281,14 @@ extractData <- function(object, what){
     return(d)
 }
 
+#' content
+#'
+#' @param object DrugSyn.
+#'
+#' @return
+#' @export
+#'
+#' @examples
 setMethod("content", signature(object = "DrugSyn"), function(object){
     object@content
     })
@@ -229,6 +301,14 @@ setReplaceMethod("content", signature(object = "DrugSyn", value = "character"), 
 
 
 #############################################################
+#' Title
+#'
+#' @param x DrugSyn.
+#'
+#' @return
+#' @export
+#'
+#' @examples
 setMethod("plot", signature(x = "DrugSyn"), function(x, type = c("heatmap", "parallel", "ind", "surface"), ...){
     type <- match.arg(type, c("heatmap", "parallel", "ind", "surface"))
     if (type == "surface") {

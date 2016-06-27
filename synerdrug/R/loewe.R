@@ -26,10 +26,10 @@ resLoewe <- function(a, b, EmaxA, EmaxB, E0A, E0B, nA, nB, EC50A, EC50B){
 #'
 #' @examples NULL
 loewe <- function(a, b, modA, modB){
-   resLoewe(a, b, EmaxA = coefficients(modA)["Emax"], EmaxB = coefficients(modB)["Emax"],
-             E0A = coefficients(modA)["E0"], E0B = coefficients(modB)["E0"],
-             nA = coefficients(modA)["n"], nB = coefficients(modB)["n"],
-             EC50A = coefficients(modA)["EC50"], EC50B = coefficients(modB)["EC50"])
+   resLoewe(a, b, EmaxA = modA["Emax"], EmaxB = modB["Emax"],
+             E0A = modA["E0"], E0B = modB["E0"],
+             nA = modA["n"], nB = modB["n"],
+             EC50A = modA["EC50"], EC50B = modB["EC50"])
 }
 
 

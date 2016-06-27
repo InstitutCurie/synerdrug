@@ -13,5 +13,13 @@ Imports:
     shiny,
     RColorBrewer,
     akima,
-    minpack.lm
+    minpack.lm,
+    scales,
+    shinydashboard,
+    shinyBS,
+    DT,
+    cowplot
 RoxygenNote: 5.0.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
