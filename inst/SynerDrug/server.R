@@ -327,7 +327,7 @@ shinyServer(function(input, output){
             g8 <- plot(object, type = "heatmap", what = "Chou") + ggtitle("Chou")
             glist <- c(glist, list(g8))
         }
-        p <- cowplot::plot_grid(cowplot::ggdraw() + cowplot::draw_label(paste(drugNames(object), collapse = " - "), fontface = "bold", size = 20), cowplot::plot_grid(plotlist = glist, scale = 0.95), ncol = 1, rel_heights = c(0.05, 1))
+        p <- cowplot::plot_grid(cowplot::ggdraw() + cowplot::draw_label(input$reportTitle, fontface = "bold", size = 20), cowplot::plot_grid(plotlist = glist, scale = 0.95), ncol = 1, rel_heights = c(0.05, 1))
         return(p)
     })
 
@@ -340,7 +340,10 @@ shinyServer(function(input, output){
             dev.off()
         })
 
-
+    output$reportTitleUI <- renderUI({
+        object <- object()
+        textInput("reportTitle", label = "Report title", value = paste(drugNames(object), collapse = " - "))
+        })
 
     getPage <- function() {
         #        return(includeHTML("help.html"))
