@@ -340,7 +340,7 @@ shinyServer(function(input, output){
             dev.off()
         })
 
-    output$
+
 
     getPage <- function() {
         #        return(includeHTML("help.html"))
