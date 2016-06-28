@@ -93,7 +93,8 @@ body <- shinydashboard::dashboardBody(
         tabItem(tabName = "report", h2("Results report"), br(),
                 checkboxGroupInput(inputId = "reportChoices", label = "Choices", choices = c("Data" = "Data", "HSA" , "Bliss" = "Bliss","Individual responses" = "indResp", "Loewe predicted" = "LoewePred", "Loewe excess" = "LoeweExcess", "Chou-Talalay" = "Chou", "Isobologram" = "isobol"), selected = c("Data", "HSA", "Bliss", "indResp", "LoewePred", "LoeweExcess", "Chou", "isobol"), inline = TRUE),
                 uiOutput("isobolUI"),
-                fluidRow(column(width = 4, uiOutput("reportTitleUI")), column(width = 4, "BB")),
+                fluidRow(column(width = 4, uiOutput("reportTitleUI")))#, column(width = 4, "BB")),
+                br(),
                 downloadButton("downloadReport", "Download")),
 
         ##------------------------------------------------------------
