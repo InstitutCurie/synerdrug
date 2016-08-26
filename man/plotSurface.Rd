@@ -2,24 +2,24 @@
 % Please edit documentation in R/plots.R
 \name{plotSurface}
 \alias{plotSurface}
-\title{Title}
+\title{Plot drugSyn object as surface}
 \usage{
 plotSurface(object, what = c("value", "Loewe", "LoeweExcess", "HSA", "Bliss",
   "Chou"), gridDensity = 4, ...)
 }
 \arguments{
-\item{object}{a drugSyn object}
+\item{object}{a \code{DrugSyn} object}
 
 \item{what}{data to plot}
 
 \item{gridDensity}{density of the grid for interpolation}
 
-\item{...}{arguments to persp}
+\item{...}{other arguments passed to \code{\link{persp}}}
 }
 \value{
 a plot
 }
 \description{
-Title
+Plot drugSyn object as surface
 }
 

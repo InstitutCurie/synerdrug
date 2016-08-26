@@ -45,13 +45,13 @@ body <- shinydashboard::dashboardBody(
         ## data vis
         tabItem(tabName = "data", h2("Data vis"),
                 tabsetPanel(
-                    tabPanel("Table", br(), div(DT::dataTableOutput("rawData")), style='width:800px'),
+                    tabPanel("Table", br(), div(DT::dataTableOutput("rawData")), style = 'width:800px'),
                     tabPanel("Heatmap", #checkboxInput("mergedHeat", "Merge replicates", TRUE),
-                             plotOutput("heatmap", width="auto", height="auto")),
+                             plotOutput("heatmap", width = "auto", height = "auto")),
                     tabPanel("Parallel plot", uiOutput("parplotSelect"), plotOutput("parplot")),
                     tabPanel("Surface",
-                             fluidRow(column(width=4, sliderInput("theta", "azimuth", min=-180, max=180, value=-100, step=5)),
-                             column(width=4, sliderInput("phi", "colatitude", min=0, max=50, value=10, step=1))),
+                             fluidRow(column(width = 4, sliderInput("theta", "azimuth", min = -180, max = 180, value = -100, step = 5)),
+                             column(width = 4, sliderInput("phi", "colatitude", min = 0, max = 50, value = 10, step = 1))),
                     fluidRow(plotOutput("surfPlot")))
                     ##   tabPanel("Predict effect", fluidRow(column(width=4, uiOutput("userDoseAUI"), uiOutput("userDoseBUI")), column(width=4, br(), br(), htmlOutput("predEffect"))), plotOutput("predEffectPlot"))
                     )
@@ -63,7 +63,7 @@ body <- shinydashboard::dashboardBody(
                 tabsetPanel(
                     tabPanel("Curves", plotOutput("plotA"), plotOutput("plotB")),
                     tabPanel("Hill model parameters", br(),# actionButton("hilleq", "Hill Model"),
-                             br(), div(DT::dataTableOutput("paramHills")), style='width:100px')#,
+                             br(), div(DT::dataTableOutput("paramHills")), style = 'width:100px')#,
                     #tabPanel("Dose calculator", br(),
                      #        fluidRow( column(width=4, numericInput("doseCalc", "Expected effect:", value = 0.5)), column(width=4,tableOutput("EDout"))),
                       #       plotOutput("EDplot"))
@@ -99,7 +99,6 @@ body <- shinydashboard::dashboardBody(
 
         ##------------------------------------------------------------
         tabItem(tabName = "help", uiOutput("help"))
-
         )
     )
 

@@ -3,15 +3,19 @@
 \docType{methods}
 \name{plot,DrugSyn,ANY-method}
 \alias{plot,DrugSyn,ANY-method}
-\title{Title}
+\title{Plot DrugSyn object}
 \usage{
 \S4method{plot}{DrugSyn,ANY}(x, type = c("heatmap", "parallel", "ind",
   "surface"), ...)
 }
 \arguments{
-\item{x}{DrugSyn.}
+\item{x}{DrugSyn object}
+
+\item{type}{type of plot}
+
+\item{...}{arguments given to plots functions}
 }
 \description{
-Title
+Plot DrugSyn object
 }
 

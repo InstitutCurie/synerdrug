@@ -1,3 +1,5 @@
+## utils ----
+
 themeNobg <- function(){
     theme(plot.background = element_blank(),
           legend.background = element_blank())
@@ -41,6 +43,19 @@ matrixPlot <- function(d, co, ro, addVal = FALSE, what = c("value", "HSA", "Chou
     return(g)
 }
 
+## heatmap ----
+
+#' Plot drugSyn object as heatmap
+#'
+#' @param object a DrugSyn object
+#' @param what character containing the name of the variable to plot
+#' @param addVal logical indicating if values should be displayed on heatmap
+#' @param main character containing title of the plot
+#'
+#' @return a ggplot object
+#' @export
+#'
+#' @examples
 plotHeatmap <- function(object, what = c("value", "HSA", "Chou", "Bliss", "Loewe", "LoeweExcess"), addVal = TRUE, main = ""){
     what <- match.arg(what, c("value", "HSA", "Chou", "Bliss", "Loewe", "LoeweExcess"))
     data <- meanData(object)
@@ -56,12 +71,14 @@ plotHeatmap <- function(object, what = c("value", "HSA", "Chou", "Bliss", "Loewe
     return(g)
 }
 
-#' Title
+## surface ----
+
+#' Plot drugSyn object as surface
 #'
-#' @param object a drugSyn object
-#' @param ... arguments to persp
+#' @param object a \code{DrugSyn} object
 #' @param what data to plot
 #' @param gridDensity density of the grid for interpolation
+#' @param ... other arguments passed to \code{\link{persp}}
 #'
 #' @return a plot
 #' @export
@@ -103,7 +120,19 @@ plotSurface <- function(object, what = c("value", "Loewe", "LoeweExcess", "HSA",
     do.call(persp, args)
 }
 
-## parallel plot
+
+## parallel lines ----
+
+#' Plot DrugSyn object as parallel lines
+#'
+#' @param object a \code{DrugSyn} object
+#' @param ref character, name of the drug plotted as x-axis
+#' @param xaxis either "pos" or "dose", indicates if the scale of x-axis is in doses of positions in data matrix
+#'
+#' @return a \code{ggplot} object
+#' @export
+#'
+#' @examples
 parPlot <- function(object, ref, xaxis = c("pos", "dose")){
     xaxis <- match.arg(xaxis, c("pos", "dose"))
     d <- meanData(object)
@@ -119,8 +148,18 @@ parPlot <- function(object, ref, xaxis = c("pos", "dose")){
     return(g)
 }
 
+## individual responses ----
 
-## courbe reponse individuelle
+#' Plot individual drug response
+#'
+#' @param object a \code{DrugSyn} object
+#' @param drug character, name of the drug
+#' @param xlog boolean, describe if th x-axis is in log-scale
+#'
+#' @return a \code{ggplot} object
+#' @export
+#'
+#' @examples
 respPlot <- function(object, drug, xlog = TRUE){
     if (!(drug %in% drugNames(object))) stop("Wrong drug name")
     d <- expData(object)
@@ -138,6 +177,8 @@ respPlot <- function(object, drug, xlog = TRUE){
 }
 
 
+## median effect ----
+
 ## median effect plot
 medianPlot <- function(object, ref){
     d <- meanData(object)
@@ -145,17 +186,17 @@ medianPlot <- function(object, ref){
     ggplot(d, aes_string(x = "A", y = "fa", color = factor(B))) + geom_point() + geom_line() + scale_x_log10()
     }
 
+## isobologram ----
 
-
-#' Title
+#' Plot an isobologram
 #'
-#' @param object a DrugSyn object
-#' @param effect numeric, effect at which the isobologram is plotted
+#' @param object a \code{DrugSyn} object
+#' @param effect numeric, effect at which the isobologram is computed
 #' @param mode type of the isobologram, see Details
 #'
 #' @return
+#' @details The \code{mode} argument defines the isobologram type. Use \code{linear} for classical isobologram where additivity is represented as a line; use \code{SP} to plot isobologram as defined by Steel and Peckham where additivity is represented as an enveloppe.
 #' @export
-#' @details
 #'
 #' @examples
 isobologram <- function(object, effect = 0.5, mode = c("linear", "SP")){
@@ -180,8 +221,8 @@ isobologram <- function(object, effect = 0.5, mode = c("linear", "SP")){
         Apos <- seq(0, ED1, length.out = 30)
         Aeffect <- mod2ll4(respInd[[1]])(Apos)
         Beq <- EDpred(Aeffect, respInd[[2]])
-        f <- function(x, Beq) abs(effect - mod2ll4(respInd[[2]])(Beq + x))
-        Bpos <- lapply(Beq, function(B) optimize(f, interval = range(doses[[2]]), Beq = B))
+        f2A <- function(x, Beq) abs(effect - mod2ll4(respInd[[2]])(Beq + x))
+        Bpos <- lapply(Beq, function(B) optimize(f2A, interval = range(doses[[2]]), Beq = B))
         Bpos <- sapply(Bpos, "[[", 1)
         Bpos[!is.finite(Beq)] <- NA
         g <- g + geom_line(aes_string(x = "x", y = "y", linetype = "type"), data = data.frame(x = Bpos, y = Apos, type = "II"))
@@ -189,8 +230,8 @@ isobologram <- function(object, effect = 0.5, mode = c("linear", "SP")){
         Bpos <- seq(0, ED2, length.out = 30)
         Beffect <- mod2ll4(respInd[[2]])(Bpos)
         Aeq <- EDpred(Beffect, respInd[[1]])
-        f <- function(x, Aeq) abs(effect - mod2ll4(respInd[[1]])(Aeq + x))
-        Apos <- lapply(Aeq, function(A) optimize(f, interval = range(doses[[1]]), Aeq = A))
+        f2B <- function(x, Aeq) abs(effect - mod2ll4(respInd[[1]])(Aeq + x))
+        Apos <- lapply(Aeq, function(A) optimize(f2B, interval = range(doses[[1]]), Aeq = A))
         Apos <- sapply(Apos, "[[", 1)
         Apos[!is.finite(Aeq)] <- NA
 

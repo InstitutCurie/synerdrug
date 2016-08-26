@@ -1,0 +1,46 @@
+---
+title: "Estimate drugs synergy with synerdrug"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+
+```
+
+
+```{r}
+require(synerdrug)
+data(exDrugSyn)
+```
+
+```{r}
+exDrugSyn
+drugNames(exDrugSyn)
+doses(exDrugSyn)
+```
+
+## Visualise data
+
+```{r}
+plot(exDrugSyn)
+```
+
+```{r}
+plot(exDrugSyn, type = "surface")
+```
+
+```{r}
+plot(exDrugSyn, type = "parallel", ref = "A")
+```
+
+
+## Individual responses
+
+```{r}
+plot(exDrugSyn, type = "ind", drug = "A")
+```

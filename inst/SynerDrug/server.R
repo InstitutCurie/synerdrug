@@ -20,7 +20,7 @@ shinyServer(function(input, output){
         return(switch(input$unit, milli = "(mM)", micro = "(μM)", nano = "(nM)"))
     })
 
-    ## Create DrugSyn object
+    ## Create DrugSyn object
     dataLong <- reactive({
         D <- datasetInput()
         if (!is.null(D)) {

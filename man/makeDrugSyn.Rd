@@ -10,6 +10,9 @@ makeDrugSyn(data, doses, content = c("Death", "Survival"), typeHill = c(4,
 \arguments{
 \item{range}{}
 }
+\value{
+a \code{DrugSyn} object
+}
 \description{
 Create DrugSyn object
 }

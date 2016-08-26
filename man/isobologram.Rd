@@ -2,21 +2,21 @@
 % Please edit documentation in R/plots.R
 \name{isobologram}
 \alias{isobologram}
-\title{Title}
+\title{Plot an isobologram}
 \usage{
 isobologram(object, effect = 0.5, mode = c("linear", "SP"))
 }
 \arguments{
-\item{object}{a DrugSyn object}
+\item{object}{a \code{DrugSyn} object}
 
-\item{effect}{numeric, effect at which the isobologram is plotted}
+\item{effect}{numeric, effect at which the isobologram is computed}
 
 \item{mode}{type of the isobologram, see Details}
 }
 \description{
-Title
+Plot an isobologram
 }
 \details{
-
+The \code{mode} argument defines the isobologram type. Use \code{linear} for classical isobologram where additivity is represented as a line; use \code{SP} to plot isobologram as defined by Steel and Peckham where additivity is represented as an enveloppe.
 }
 

@@ -1,13 +1,15 @@
+## class definition ----
+
 #' Title
 #'
-#' @slot data data.frame.
-#' @slot doses list.
-#' @slot respInd list.
-#' @slot drugNames vector.
-#' @slot dataMean data.frame.
-#' @slot content character.
-#' @slot typeHill numeric.
-#' @slot range character.
+#' @slot data data.frame
+#' @slot doses list
+#' @slot respInd list
+#' @slot drugNames vector
+#' @slot dataMean data.frame
+#' @slot content character
+#' @slot typeHill numeric
+#' @slot range character
 #'
 #' @return
 #' @export
@@ -30,32 +32,37 @@ setMethod("show", signature(object = "DrugSyn"),
           })
 
 
+
+## setter / getter ----
+
 ## doses
-#' Title
-#'
-#' @param object DrugSyn.
-#'
-#' @return
+
+#' @describeIn DrugSyn get doses values
 #' @export
-#'
-#' @examples
 setMethod("doses", signature(object = "DrugSyn"), function(object){
     object@doses
 })
+
+#' @describeIn DrugSyn set doses values
+#' @export
 setReplaceMethod("doses", signature(object = "DrugSyn", value = "list"), function(object, value){
     object@doses <- value
     validObject(object)
     return(object)
 })
 
-
+#' @describeIn DrugSyn extract experimental data
+#' @export
 setMethod("expData", signature(object = "DrugSyn"), function(object){
     object@data
 })
+#' @describeIn DrugSyn set experimental data
+#' @export
 setReplaceMethod("expData", signature(object = "DrugSyn", value = "data.frame"), function(object, value){
     object@data <- value
     return(object)
 })
+
 
 setMethod("meanData", signature(object = "DrugSyn"), function(object){
     object@dataMean
@@ -65,34 +72,26 @@ setReplaceMethod("meanData", signature(object = "DrugSyn", value = "data.frame")
     return(object)
 })
 
-#' Title
-#'
-#' @param object DrugSyn.
-#'
-#' @return
+#' @describeIn DrugSyn extract individual responses
 #' @export
-#'
-#' @examples
 setMethod("respInd", signature(object = "DrugSyn"), function(object){
     object@respInd
 })
+#' @describeIn DrugSyn set individual responses
+#' @export
 setReplaceMethod("respInd", signature(object = "DrugSyn", value = "list"), function(object, value){
     object@respInd <- value
     validObject(object)
     return(object)
 })
 
-#' Title
-#'
-#' @param object DrugSyn.
-#'
-#' @return
+#' @describeIn DrugSyn extract drug names
 #' @export
-#'
-#' @examples
 setMethod("drugNames", signature(object = "DrugSyn"), function(object){
     object@drugNames
 })
+#' @describeIn DrugSyn set drug names
+#' @export
 setReplaceMethod("drugNames", signature(object = "DrugSyn", value = "vector"), function(object, value){
     oldNames <- drugNames(object)
     object@drugNames <- value
@@ -109,9 +108,13 @@ setReplaceMethod("drugNames", signature(object = "DrugSyn", value = "vector"), f
     return(object)
 })
 
+#' @describeIn DrugSyn get Hill function type
+#' @export
 setMethod("typeHill", signature(object = "DrugSyn"), function(object){
     object@typeHill
     })
+#' @describeIn DrugSyn set Hill function type
+#' @export
 setReplaceMethod("typeHill", signature(object = "DrugSyn", value = "numeric"), function(object, value){
     object@typeHill <- value
     validObject(object)
@@ -127,7 +130,7 @@ setReplaceMethod("typeHill", signature(object = "DrugSyn", value = "numeric"), f
 #' @param typeHill
 #' @param range
 #'
-#' @return
+#' @return a \code{DrugSyn} object
 #' @export
 #'
 #' @examples
@@ -301,11 +304,14 @@ setReplaceMethod("content", signature(object = "DrugSyn", value = "character"), 
 
 
 #############################################################
-#' Title
+#' Plot DrugSyn object
 #'
-#' @param x DrugSyn.
+#' @param x DrugSyn object
+#' @param type type of plot
+#' @param ... arguments given to plots functions
 #'
 #' @return
+#' @alias plot,DrugSyn
 #' @export
 #'
 #' @examples

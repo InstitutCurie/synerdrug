@@ -3,27 +3,80 @@
 \docType{class}
 \name{DrugSyn-class}
 \alias{DrugSyn-class}
+\alias{doses,DrugSyn-method}
+\alias{doses<-,DrugSyn,list-method}
+\alias{drugNames,DrugSyn-method}
+\alias{drugNames<-,DrugSyn,vector-method}
+\alias{expData,DrugSyn-method}
+\alias{expData<-,DrugSyn,data.frame-method}
+\alias{respInd,DrugSyn-method}
+\alias{respInd<-,DrugSyn,list-method}
+\alias{typeHill,DrugSyn-method}
+\alias{typeHill<-,DrugSyn,numeric-method}
 \title{Title}
+\usage{
+\S4method{doses}{DrugSyn}(object)
+
+\S4method{doses}{DrugSyn,list}(object) <- value
+
+\S4method{expData}{DrugSyn}(object)
+
+\S4method{expData}{DrugSyn,data.frame}(object) <- value
+
+\S4method{respInd}{DrugSyn}(object)
+
+\S4method{respInd}{DrugSyn,list}(object) <- value
+
+\S4method{drugNames}{DrugSyn}(object)
+
+\S4method{drugNames}{DrugSyn,vector}(object) <- value
+
+\S4method{typeHill}{DrugSyn}(object)
+
+\S4method{typeHill}{DrugSyn,numeric}(object) <- value
+}
 \description{
 Title
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{doses}: get doses values
+
+\item \code{doses<-}: set doses values
+
+\item \code{expData}: extract experimental data
+
+\item \code{expData<-}: set experimental data
+
+\item \code{respInd}: extract individual responses
+
+\item \code{respInd<-}: set individual responses
+
+\item \code{drugNames}: extract drug names
+
+\item \code{drugNames<-}: set drug names
+
+\item \code{typeHill}: get Hill function type
+
+\item \code{typeHill<-}: set Hill function type
+}}
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{data.frame.}
+\item{\code{data}}{data.frame}
 
-\item{\code{doses}}{list.}
+\item{\code{doses}}{list}
 
-\item{\code{respInd}}{list.}
+\item{\code{respInd}}{list}
 
-\item{\code{drugNames}}{vector.}
+\item{\code{drugNames}}{vector}
 
-\item{\code{dataMean}}{data.frame.}
+\item{\code{dataMean}}{data.frame}
 
-\item{\code{content}}{character.}
+\item{\code{content}}{character}
 
-\item{\code{typeHill}}{numeric.}
+\item{\code{typeHill}}{numeric}
 
-\item{\code{range}}{character.}
+\item{\code{range}}{character}
 }}
 

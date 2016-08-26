@@ -3,7 +3,6 @@
 #' @import cowplot
 #' @import methods
 #' @importFrom RColorBrewer brewer.pal
-#' @importFrom akima interp
 #' @importFrom minpack.lm nlsLM
 #' @importFrom graphics plot persp
 #' @importFrom scales seq_gradient_pal

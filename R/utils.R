@@ -21,13 +21,7 @@ detectDec <- function(file){
 }
 
 
-#' Generate sequence of doses
-#'
-#' @param doses data doses
-#' @param n number of points in each doses interval (inclusive)
-#'
-#' @return sequence of doses
-#'
+## generate sequence of doses
 mySeq <- function(doses, n){
     d <- data.frame(from = doses[-length(doses)], to = doses[-1])
     return(unique(as.vector(apply(d, 1, function(x, n) seq(x[1], x[2], length.out = n), n))))
@@ -45,10 +39,14 @@ mod2ll4 <- function(coef){
 
 
 
+## interpolate values on surface, inspired by fields::interp.surface
+##
+## @param x
+## @param y
+## @param z
+## @param xo
+## @param yo
 interpol <- function(x, y, z, xo, yo){
-    ## z matrice de données
-    ## x, y coordonnées de la grille
-    ## from fields::interp.surface
     nx <- length(x)
     ny <- length(y)
     lx <- approx(x, 1:nx, xo)$y
@@ -69,14 +67,14 @@ interpol <- function(x, y, z, xo, yo){
 }
 
 
-
+## check typeHill value
 checkTypeHill <- function(x){
     int <- intersect(c(4, 3), x)
     if (length(int) == 0) stop("typeHill must be 3 or 4")
     return(int[1])
 }
 
-
+## trim extreme values
 trimvalues <- function(x, limits) {
     x <- ifelse(x < limits[1], limits[1], x)
     x <- ifelse(x > limits[2], limits[2], x)
