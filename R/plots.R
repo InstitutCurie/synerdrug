@@ -111,7 +111,8 @@ plotSurface <- function(object, what = c("value", "Loewe", "LoeweExcess", "HSA",
         zfacet <- trimvalues(zfacet, c(0.5, 1.5))
         facetcol <- cut(zfacet, seq(0.5, 1.5, length.out = 12))
     }
-    surf <- list(x = xo / max(xo), y = yo/max(yo), z = z)
+    z[!is.finite(z)] <- NA
+    surf <- list(x = xo / max(xo), y = yo / max(yo), z = z)
 
     ## overwrite default args by ...
     args <- list(x = surf, col = color[facetcol], box = TRUE, axes = TRUE, border = "gray30", scale = FALSE, xlab = drugs[2], ylab = drugs[1], zlab = content(object))
