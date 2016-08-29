@@ -8,12 +8,25 @@ makeDrugSyn(data, doses, content = c("Death", "Survival"), typeHill = c(4,
   3), range = c("Fraction", "Percentage"))
 }
 \arguments{
-\item{range}{}
+\item{data}{data.frame of experimental values}
+
+\item{doses}{list with doses of the two drugs}
+
+\item{content}{character, type of the experiment}
+
+\item{typeHill}{numeric, number of parameters for the Hill function}
+
+\item{range}{"Fraction" or "Percentage", defines the range of the values}
 }
 \value{
 a \code{DrugSyn} object
 }
 \description{
 Create DrugSyn object
+}
+\examples{
+
+## data.frame of experimental values: d
+object <- makeDrugSyn(d, doses = list(A = sort(unique(d$A)), B = sort(unique(d$B))), content = "Death")
 }
 

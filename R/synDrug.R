@@ -124,16 +124,19 @@ setReplaceMethod("typeHill", signature(object = "DrugSyn", value = "numeric"), f
 
 #' Create DrugSyn object
 #'
-#' @param data
-#' @param doses
-#' @param content
-#' @param typeHill
-#' @param range
+#' @param data data.frame of experimental values
+#' @param doses list with doses of the two drugs
+#' @param content character, type of the experiment
+#' @param typeHill numeric, number of parameters for the Hill function
+#' @param range "Fraction" or "Percentage", defines the range of the values
 #'
 #' @return a \code{DrugSyn} object
 #' @export
 #'
 #' @examples
+#'
+#' ## data.frame of experimental values: d
+#' object <- makeDrugSyn(d, doses = list(A = sort(unique(d$A)), B = sort(unique(d$B))), content = "Death")
 makeDrugSyn <- function(data, doses, content = c("Death", "Survival"), typeHill = c(4, 3), range = c("Fraction", "Percentage")){
     drugNames <- names(doses)
     content <- match.arg(content, c("Death", "Survival"))

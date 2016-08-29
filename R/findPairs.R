@@ -1,4 +1,4 @@
-## find paisrs of doses to obtain given effect
+## find pairs of doses to obtain given effect
 findPairs <- function(y, d, val, rangeRoot){
     fun2min <- function(x, d, y, val){
         interp(d$PosB, d$PosA, d$value, duplicate = "mean", xo = x, yo = y, linear = TRUE)$z - val

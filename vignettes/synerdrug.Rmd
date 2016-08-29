@@ -1,15 +1,19 @@
 ---
 title: "Estimate drugs synergy with synerdrug"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+    rmarkdown::html_vignette:
+        toc: true
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  
 ---
 
-```{r}
-
+```{r, echo = FALSE}
+require(knitr)
+opts_chunk$set(echo = TRUE, fig.width = 5, fig.height = 4, prompt = TRUE, warning = FALSE)
 ```
 
 
@@ -26,21 +30,82 @@ doses(exDrugSyn)
 
 ## Visualise data
 
+The data can be visualized by using `plot` on the `DrugSyn` object. Several visualization types are available: as heatmaps, as surface or parallel lines. 
+
 ```{r}
 plot(exDrugSyn)
 ```
 
-```{r}
-plot(exDrugSyn, type = "surface")
-```
+The data can be viewed as a surface by setting the `type` argument of `plot` to `"surface"`. Arguments from `persp` can be passed to plot to adjust the appearance (e.g. azimuth and co-latitude).
 
 ```{r}
+plot(exDrugSyn, type = "surface")
+plot(exDrugSyn, type = "surface", theta = -45, phi = 45)
+```
+
+```{r, fig.height = 3, fig.width = 6}
 plot(exDrugSyn, type = "parallel", ref = "A")
+plot(exDrugSyn, type = "parallel", ref = "B")
+
 ```
 
 
 ## Individual responses
 
-```{r}
+The single agent responses are fitted by a Hill function (also known as log-logistic model or sigmoid curve) with 4 parameters:
+
+$$E=E_0 + \frac{E_{max}-E_0}{1 + (\frac{EC_{50}}{d})^n}$$
+
+where:
+
+* $E$ is the observed effect
+* $d$ is the dose
+* $E_0$ is the minimum effect
+* $E_{max}$ is the maximum effect
+* $EC_{50}$ is the effective dose 50
+* $n$ is the sigmoidicity parameter.
+
+```{r, fig.height = 3, fig.width = 6}
 plot(exDrugSyn, type = "ind", drug = "A")
+plot(exDrugSyn, type = "ind", drug = "B")
 ```
+
+The parameters of the hill functions can be accessed with `respInd`.
+```{r}
+respInd(exDrugSyn)
+```
+
+
+
+## Synergy estimates
+
+Several synergy estimate idexes are computed by `synerdrug`. 
+
+### Effect-based synergy evaluation
+ $HSA_{ab}=max(E_{a0}, E_{0b})/E_{ab}$;
+ 
+  $Bliss_{ab}=(E_{a0}+E_{0b}-E_{a0}E_{0b})/E_{ab}$
+  
+```{r}
+
+plot(exDrugSyn, type = "heatmap", what = "Bliss")
+plot(exDrugSyn, type = "surface", what = "LoeweExcess")
+
+```
+
+### Dose-effect based synergy evaluation
+
+$a/A+b/B=1$
+
+$CI_{ab}=a/A+b/B$  
+
+## Isobologram
+```{r}
+isobologram(exDrugSyn, effect = 0.5)
+isobologram(exDrugSyn, effect = 0.5, mode = "SP")
+```
+
+
+
+
+
