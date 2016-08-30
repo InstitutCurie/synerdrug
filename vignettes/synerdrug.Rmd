@@ -44,8 +44,8 @@ plot(exDrugSyn, type = "surface", theta = -45, phi = 45)
 ```
 
 ```{r, fig.height = 3, fig.width = 6}
-plot(exDrugSyn, type = "parallel", ref = "A")
-plot(exDrugSyn, type = "parallel", ref = "B")
+plot(exDrugSyn, type = "parallel", ref = "drugA")
+plot(exDrugSyn, type = "parallel", ref = "drugB")
 
 ```
 
@@ -66,8 +66,8 @@ where:
 * $n$ is the sigmoidicity parameter.
 
 ```{r, fig.height = 3, fig.width = 6}
-plot(exDrugSyn, type = "ind", drug = "A")
-plot(exDrugSyn, type = "ind", drug = "B")
+plot(exDrugSyn, type = "ind", drug = "drugA")
+plot(exDrugSyn, type = "ind", drug = "drugB")
 ```
 
 The parameters of the hill functions can be accessed with `respInd`.

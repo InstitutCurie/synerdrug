@@ -27,7 +27,7 @@ Create DrugSyn object
 \examples{
 
 ## data.frame of experimental values: d
-object <- makeDrugSyn(d, doses = list(A = sort(unique(d$A)), B = sort(unique(d$B))),
- content = "Death")
+object <- makeDrugSyn(synergy, doses = list(drugA = sort(unique(synergy$A)),
+drugB = sort(unique(synergy$B))), content = "Death")
 }
 
