@@ -3,17 +3,19 @@
 \docType{class}
 \name{DrugSyn-class}
 \alias{DrugSyn-class}
+\alias{content,DrugSyn-method}
+\alias{content<-,DrugSyn,character-method}
 \alias{doses,DrugSyn-method}
 \alias{doses<-,DrugSyn,list-method}
 \alias{drugNames,DrugSyn-method}
 \alias{drugNames<-,DrugSyn,vector-method}
 \alias{expData,DrugSyn-method}
 \alias{expData<-,DrugSyn,data.frame-method}
+\alias{plot,DrugSyn,ANY-method}
+\alias{plot,DrugSyn-method}
 \alias{respInd,DrugSyn-method}
 \alias{respInd<-,DrugSyn,list-method}
-\alias{typeHill,DrugSyn-method}
-\alias{typeHill<-,DrugSyn,numeric-method}
-\title{Title}
+\title{DrugSyn class}
 \usage{
 \S4method{doses}{DrugSyn}(object)
 
@@ -31,12 +33,26 @@
 
 \S4method{drugNames}{DrugSyn,vector}(object) <- value
 
-\S4method{typeHill}{DrugSyn}(object)
+\S4method{content}{DrugSyn}(object)
 
-\S4method{typeHill}{DrugSyn,numeric}(object) <- value
+\S4method{content}{DrugSyn,character}(object) <- value
+
+\S4method{plot}{DrugSyn,ANY}(x, type = c("heatmap", "parallel", "ind",
+  "surface"), ...)
+}
+\arguments{
+\item{object}{a DrugSyn}
+
+\item{value}{replacement value}
+
+\item{x}{DrugSyn object}
+
+\item{type}{type of plot}
+
+\item{...}{arguments given to plots functions}
 }
 \description{
-Title
+S4 class to store drug combination data
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -56,9 +72,11 @@ Title
 
 \item \code{drugNames<-}: set drug names
 
-\item \code{typeHill}: get Hill function type
+\item \code{content}: get content type
 
-\item \code{typeHill<-}: set Hill function type
+\item \code{content<-}: set content type
+
+\item \code{plot}: plot DrugSyn object
 }}
 \section{Slots}{
 

@@ -7,9 +7,9 @@
 doses(object) <- value
 }
 \arguments{
-\item{object}{}
+\item{object}{a DrugSyn object}
 
-\item{value}{}
+\item{value}{list}
 }
 \description{
 Set doses values

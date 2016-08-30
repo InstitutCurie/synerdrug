@@ -1,6 +1,8 @@
 ## class definition ----
 
-#' Title
+#' DrugSyn class
+#'
+#' S4 class to store drug combination data
 #'
 #' @slot data data.frame
 #' @slot doses list
@@ -23,26 +25,32 @@ setValidity("DrugSyn", function(object){
     return(TRUE)
 })
 
+## show ----
 setMethod("show", signature(object = "DrugSyn"),
           function(object){
+              drugs <- drugNames(object)
+              doses <- doses(object)
               cat("DrugSyn object\n")
-              cat("drugs:", drugNames(object))
+              cat("drugs:", drugs)
               #print(dim(expData(object)))
-              #print(doses(object))
+              cat("\ndoses: \n\t")
+              cat(drugNames(object)[1], paste0(doses[[1]], collapse = " "))
+              cat("\n\t")
+              cat(drugNames(object)[2], paste0(doses[[2]], collapse = " "))
           })
 
 
-
+###########################################
 ## setter / getter ----
 
-## doses
-
+## doses ----
 #' @describeIn DrugSyn get doses values
+#' @param object a DrugSyn
+#' @param value replacement value
 #' @export
 setMethod("doses", signature(object = "DrugSyn"), function(object){
     object@doses
 })
-
 #' @describeIn DrugSyn set doses values
 #' @export
 setReplaceMethod("doses", signature(object = "DrugSyn", value = "list"), function(object, value){
@@ -50,6 +58,7 @@ setReplaceMethod("doses", signature(object = "DrugSyn", value = "list"), functio
     validObject(object)
     return(object)
 })
+
 
 #' @describeIn DrugSyn extract experimental data
 #' @export
@@ -63,7 +72,7 @@ setReplaceMethod("expData", signature(object = "DrugSyn", value = "data.frame"),
     return(object)
 })
 
-
+## meanData getter/setter ----
 setMethod("meanData", signature(object = "DrugSyn"), function(object){
     object@dataMean
 })
@@ -72,6 +81,7 @@ setReplaceMethod("meanData", signature(object = "DrugSyn", value = "data.frame")
     return(object)
 })
 
+## individual responses getter/setter ----
 #' @describeIn DrugSyn extract individual responses
 #' @export
 setMethod("respInd", signature(object = "DrugSyn"), function(object){
@@ -85,6 +95,7 @@ setReplaceMethod("respInd", signature(object = "DrugSyn", value = "list"), funct
     return(object)
 })
 
+## drug names getter / setter ----
 #' @describeIn DrugSyn extract drug names
 #' @export
 setMethod("drugNames", signature(object = "DrugSyn"), function(object){
@@ -108,20 +119,17 @@ setReplaceMethod("drugNames", signature(object = "DrugSyn", value = "vector"), f
     return(object)
 })
 
-#' @describeIn DrugSyn get Hill function type
-#' @export
+## hill getter/setter ----
 setMethod("typeHill", signature(object = "DrugSyn"), function(object){
     object@typeHill
     })
-#' @describeIn DrugSyn set Hill function type
-#' @export
 setReplaceMethod("typeHill", signature(object = "DrugSyn", value = "numeric"), function(object, value){
     object@typeHill <- value
     validObject(object)
     return(object)
 })
 
-
+## makeDrugSyn ----
 #' Create DrugSyn object
 #'
 #' @param data data.frame of experimental values
@@ -136,7 +144,8 @@ setReplaceMethod("typeHill", signature(object = "DrugSyn", value = "numeric"), f
 #' @examples
 #'
 #' ## data.frame of experimental values: d
-#' object <- makeDrugSyn(d, doses = list(A = sort(unique(d$A)), B = sort(unique(d$B))), content = "Death")
+#' object <- makeDrugSyn(d, doses = list(A = sort(unique(d$A)), B = sort(unique(d$B))),
+#'  content = "Death")
 makeDrugSyn <- function(data, doses, content = c("Death", "Survival"), typeHill = c(4, 3), range = c("Fraction", "Percentage")){
     drugNames <- names(doses)
     content <- match.arg(content, c("Death", "Survival"))
@@ -158,6 +167,7 @@ makeDrugSyn <- function(data, doses, content = c("Death", "Survival"), typeHill 
     return(object)
 }
 
+## makeRespInd ----
 setMethod("makeRespInd", signature(object = "DrugSyn"), function(object){
     data <- expData(object)
     drugs <- drugNames(object)
@@ -176,9 +186,7 @@ setMethod("makeRespInd", signature(object = "DrugSyn"), function(object){
     return(object)
 })
 
-
-
-
+## computeDataMean ----
 setMethod("computeDataMean", signature(object = "DrugSyn"), function(object){
     data <- expData(object)
     drugs <- drugNames(object)
@@ -197,7 +205,7 @@ setMethod("computeDataMean", signature(object = "DrugSyn"), function(object){
     return(object)
 })
 
-
+## computeBliss ----
 setMethod("computeBliss", signature(object = "DrugSyn"), function(object){
     data <- meanData(object)
     if (is.null(data)) {
@@ -212,6 +220,7 @@ setMethod("computeBliss", signature(object = "DrugSyn"), function(object){
     return(object)
 })
 
+## computeHSA ----
 setMethod("computeHSA", signature(object = "DrugSyn"), function(object){
     data <- meanData(object)
     content <- content(object)
@@ -226,6 +235,7 @@ setMethod("computeHSA", signature(object = "DrugSyn"), function(object){
     return(object)
 })
 
+## computeLoewe ----
 setMethod("computeLoewe", signature(object = "DrugSyn"), function(object){
     data <- meanData(object)
     mods <- respInd(object)
@@ -247,6 +257,7 @@ setMethod("computeLoewe", signature(object = "DrugSyn"), function(object){
     return(object)
     })
 
+## computeChou ----
 setMethod("computeChou", signature(object = "DrugSyn"), function(object){
     data <- meanData(object)
     mods <- respInd(object)
@@ -266,6 +277,7 @@ setMethod("computeChou", signature(object = "DrugSyn"), function(object){
     return(object)
 })
 
+## synergy indexes getters ----
 ## get Loewe, HSA and Bliss values
 setMethod("HSA", signature(object = "DrugSyn"), function(object){
     extractData(object, "HSA")
@@ -280,6 +292,7 @@ setMethod("Chou", signature(object = "DrugSyn"), function(object){
     extractData(object, "Chou")
 })
 
+## extractData ----
 extractData <- function(object, what){
     data <- meanData(object)
     drugs <- drugNames(object)
@@ -287,17 +300,14 @@ extractData <- function(object, what){
     return(d)
 }
 
-#' content
-#'
-#' @param object DrugSyn.
-#'
-#' @return
+## content ----
+#' @describeIn DrugSyn get content type
 #' @export
-#'
-#' @examples
 setMethod("content", signature(object = "DrugSyn"), function(object){
     object@content
     })
+#' @describeIn DrugSyn set content type
+#' @export
 setReplaceMethod("content", signature(object = "DrugSyn", value = "character"), function(object, value = c("Death", "Survival")){
     value <- match.arg(value, c("Death", "Survival"))
     object@content <- value
@@ -305,16 +315,14 @@ setReplaceMethod("content", signature(object = "DrugSyn", value = "character"), 
     return(object)
 })
 
-
-#############################################################
-#' Plot DrugSyn object
-#'
+## plot -----
 #' @param x DrugSyn object
 #' @param type type of plot
 #' @param ... arguments given to plots functions
 #'
 #' @return
-#' @alias plot,DrugSyn
+#' @aliases plot,DrugSyn-method
+#' @describeIn DrugSyn plot DrugSyn object
 #' @export
 #'
 #' @examples

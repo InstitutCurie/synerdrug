@@ -1,6 +1,6 @@
 #' @import ggplot2
 #' @import shiny
-#' @import cowplot
+#' @importFrom cowplot plot_grid ggdraw draw_label
 #' @import methods
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom minpack.lm nlsLM

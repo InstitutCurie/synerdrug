@@ -177,13 +177,13 @@ respPlot <- function(object, drug, xlog = TRUE){
     return(g)
 }
 
-
 ## median effect ----
 
 ## median effect plot
 medianPlot <- function(object, ref){
     d <- meanData(object)
     d[, "fa"] <- log(d[, "x"] / (1 - d[, "x"]))
+    B <- "B"
     ggplot(d, aes_string(x = "A", y = "fa", color = factor(B))) + geom_point() + geom_line() + scale_x_log10()
     }
 
