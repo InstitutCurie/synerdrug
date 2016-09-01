@@ -96,4 +96,15 @@ S4 class to store drug combination data
 
 \item{\code{range}}{character}
 }}
+\examples{
+data(exDrugSyn)
+## heatmap
+plot(exDrugSyn)
+## surface
+plot(exDrugSyn, type = "surface")
+## parallel plot
+plot(exDrugSyn, type = "parallel", ref = "drugA")
+## individual response
+plot(exDrugSyn, type = "ind", drug = "drugB")
+}
 

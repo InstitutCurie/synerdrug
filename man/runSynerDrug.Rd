@@ -2,11 +2,19 @@
 % Please edit documentation in R/shinyApp.R
 \name{runSynerDrug}
 \alias{runSynerDrug}
-\title{Title}
+\title{Run synerdrug shiny interface}
 \usage{
 runSynerDrug()
 }
+\value{
+Opens web browser on shiny interface.
+}
 \description{
-Title
+Run synerdrug shiny interface
+}
+\examples{
+\dontrun{
+runSynerDrug()
+}
 }
 

@@ -13,10 +13,20 @@ isobologram(object, effect = 0.5, mode = c("linear", "SP"))
 
 \item{mode}{type of the isobologram, see Details}
 }
+\value{
+a plot
+}
 \description{
 Plot an isobologram
 }
 \details{
 The \code{mode} argument defines the isobologram type. Use \code{linear} for classical isobologram where additivity is represented as a line; use \code{SP} to plot isobologram as defined by Steel and Peckham where additivity is represented as an enveloppe.
+}
+\examples{
+data(exDrugSyn)
+## linear isobologram
+isobologram(exDrugSyn)
+## Steel and Peckham isobologram
+isobologram(exDrugSyn, mode = "SP")
 }
 

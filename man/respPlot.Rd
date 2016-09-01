@@ -19,4 +19,8 @@ a \code{ggplot} object
 \description{
 Plot individual drug response
 }
+\examples{
+data(exDrugSyn)
+respPlot(exDrugSyn, "drugA")
+}
 

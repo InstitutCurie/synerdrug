@@ -19,4 +19,8 @@ a \code{ggplot} object
 \description{
 Plot DrugSyn object as parallel lines
 }
+\examples{
+data(exDrugSyn)
+parPlot(exDrugSyn, ref = "drugA")
+}
 

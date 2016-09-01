@@ -22,4 +22,13 @@ a plot
 \description{
 Plot drugSyn object as surface
 }
+\examples{
+#' data(exDrugSyn)
+## Experimental data
+plotSurface(exDrugSyn)
+## change azimuth
+plotSurface(exDrugSyn, theta = -80)
+## Loewe excess
+plotSurface(exDrugSyn, what = "LoeweExcess")
+}
 

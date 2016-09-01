@@ -56,6 +56,13 @@ matrixPlot <- function(d, co, ro, addVal = FALSE, what = c("value", "HSA", "Chou
 #' @export
 #'
 #' @examples
+#' data(exDrugSyn)
+#' ## Experimental data
+#' plotHeatmap(exDrugSyn)
+#' ## Loewe predicted effect
+#' plotHeatmap(exDrugSyn, what = "Loewe")
+#' ## Chou CI
+#' plotHeatmap(exDrugSyn, what = "Chou")
 plotHeatmap <- function(object, what = c("value", "HSA", "Chou", "Bliss", "Loewe", "LoeweExcess"), addVal = TRUE, main = ""){
     what <- match.arg(what, c("value", "HSA", "Chou", "Bliss", "Loewe", "LoeweExcess"))
     data <- meanData(object)
@@ -84,6 +91,13 @@ plotHeatmap <- function(object, what = c("value", "HSA", "Chou", "Bliss", "Loewe
 #' @export
 #'
 #' @examples
+#' #' data(exDrugSyn)
+#' ## Experimental data
+#' plotSurface(exDrugSyn)
+#' ## change azimuth
+#' plotSurface(exDrugSyn, theta = -80)
+#' ## Loewe excess
+#' plotSurface(exDrugSyn, what = "LoeweExcess")
 plotSurface <- function(object, what = c("value", "Loewe", "LoeweExcess", "HSA", "Bliss", "Chou"), gridDensity = 4, ...) {
     what <- match.arg(what, c("value", "Loewe", "LoeweExcess", "HSA", "Bliss", "Chou"))
     data <- meanData(object)
@@ -134,6 +148,8 @@ plotSurface <- function(object, what = c("value", "Loewe", "LoeweExcess", "HSA",
 #' @export
 #'
 #' @examples
+#' data(exDrugSyn)
+#' parPlot(exDrugSyn, ref = "drugA")
 parPlot <- function(object, ref, xaxis = c("pos", "dose")){
     xaxis <- match.arg(xaxis, c("pos", "dose"))
     d <- meanData(object)
@@ -161,6 +177,8 @@ parPlot <- function(object, ref, xaxis = c("pos", "dose")){
 #' @export
 #'
 #' @examples
+#' data(exDrugSyn)
+#'respPlot(exDrugSyn, "drugA")
 respPlot <- function(object, drug, xlog = TRUE){
     if (!(drug %in% drugNames(object))) stop("Wrong drug name")
     d <- expData(object)
@@ -195,11 +213,16 @@ medianPlot <- function(object, ref){
 #' @param effect numeric, effect at which the isobologram is computed
 #' @param mode type of the isobologram, see Details
 #'
-#' @return
+#' @return a plot
 #' @details The \code{mode} argument defines the isobologram type. Use \code{linear} for classical isobologram where additivity is represented as a line; use \code{SP} to plot isobologram as defined by Steel and Peckham where additivity is represented as an enveloppe.
 #' @export
 #'
 #' @examples
+#' data(exDrugSyn)
+#' ## linear isobologram
+#' isobologram(exDrugSyn)
+#' ## Steel and Peckham isobologram
+#' isobologram(exDrugSyn, mode = "SP")
 isobologram <- function(object, effect = 0.5, mode = c("linear", "SP")){
     d <- meanData(object)
     mode <- match.arg(mode, c("linear", "SP"))

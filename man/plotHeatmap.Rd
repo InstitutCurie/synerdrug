@@ -22,4 +22,13 @@ a ggplot object
 \description{
 Plot drugSyn object as heatmap
 }
+\examples{
+data(exDrugSyn)
+## Experimental data
+plotHeatmap(exDrugSyn)
+## Loewe predicted effect
+plotHeatmap(exDrugSyn, what = "Loewe")
+## Chou CI
+plotHeatmap(exDrugSyn, what = "Chou")
+}
 

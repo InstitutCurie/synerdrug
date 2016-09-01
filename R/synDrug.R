@@ -13,11 +13,8 @@
 #' @slot typeHill numeric
 #' @slot range character
 #'
-#' @return
 #' @export
 #' @exportClass DrugSyn
-#'
-#' @examples
 setClass("DrugSyn", representation(data = "data.frame", doses = "list", respInd = "list", drugNames = "vector", dataMean = "data.frame", content = "character", typeHill = "numeric", range = "character"))
 
 setValidity("DrugSyn", function(object){
@@ -320,12 +317,20 @@ setReplaceMethod("content", signature(object = "DrugSyn", value = "character"), 
 #' @param type type of plot
 #' @param ... arguments given to plots functions
 #'
-#' @return
 #' @aliases plot,DrugSyn-method
 #' @describeIn DrugSyn plot DrugSyn object
 #' @export
 #'
 #' @examples
+#' data(exDrugSyn)
+#' ## heatmap
+#' plot(exDrugSyn)
+#' ## surface
+#' plot(exDrugSyn, type = "surface")
+#' ## parallel plot
+#' plot(exDrugSyn, type = "parallel", ref = "drugA")
+#' ## individual response
+#' plot(exDrugSyn, type = "ind", drug = "drugB")
 setMethod("plot", signature(x = "DrugSyn"), function(x, type = c("heatmap", "parallel", "ind", "surface"), ...){
     type <- match.arg(type, c("heatmap", "parallel", "ind", "surface"))
     if (type == "surface") {
