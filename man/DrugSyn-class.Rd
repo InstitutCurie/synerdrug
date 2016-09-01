@@ -11,7 +11,6 @@
 \alias{drugNames<-,DrugSyn,vector-method}
 \alias{expData,DrugSyn-method}
 \alias{expData<-,DrugSyn,data.frame-method}
-\alias{plot,DrugSyn,ANY-method}
 \alias{plot,DrugSyn-method}
 \alias{respInd,DrugSyn-method}
 \alias{respInd<-,DrugSyn,list-method}
@@ -37,8 +36,8 @@
 
 \S4method{content}{DrugSyn,character}(object) <- value
 
-\S4method{plot}{DrugSyn,ANY}(x, type = c("heatmap", "parallel", "ind",
-  "surface"), ...)
+\S4method{plot}{DrugSyn}(x, type = c("heatmap", "parallel", "ind", "surface"),
+  ...)
 }
 \arguments{
 \item{object}{a DrugSyn}

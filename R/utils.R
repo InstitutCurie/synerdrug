@@ -1,18 +1,18 @@
-#' Convert character to numeric
-#'
-#' @param x string to convert
-#'
-#' @return numeric
+## Convert character to numeric
+## @keywords internal
+## @param x string to convert
+##
+## @return numeric
 c2num <- function(x){
     as.numeric(gsub(",", ".", x, fixed = TRUE))
 }
 
-#' Automatic detection of decimal character in file
-#'
-#' @param file input file
-#'
-#' @return character "." or ","
-#'
+## Automatic detection of decimal character in file
+## @keywords internal
+## @param file input file
+##
+## @return character "." or ","
+##
 detectDec <- function(file){
     d <- readLines(file, n = 3)
     npoint <- length(grep("\\.", d))
