@@ -5,7 +5,7 @@ Version: 0.1.0
 Author: Pierre Gestraud
 Maintainer: Pierre Gestraud <pierre.gestraud@curie.fr>
 Description: Analysis of drug combinations.
-License: GPL
+License: file LICENCE
 LazyData: TRUE
 Imports:
     methods,
