@@ -12,13 +12,12 @@ Imports:
     ggplot2,
     shiny,
     RColorBrewer,
-    akima,
     minpack.lm,
     scales,
     shinydashboard,
     shinyBS,
-    DT,
     cowplot
+
 RoxygenNote: 5.0.1
 Suggests: knitr,
     rmarkdown
