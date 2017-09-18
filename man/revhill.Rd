@@ -26,4 +26,3 @@ Inverse function of Hill equation
 \examples{
 revhill(50, 100, 0, 2, 0.5)
 }
-

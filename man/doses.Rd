@@ -12,4 +12,3 @@ doses(object)
 \description{
 Extract doses values
 }
-

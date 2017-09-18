@@ -12,4 +12,3 @@ drugNames(object)
 \description{
 Get drug names
 }
-

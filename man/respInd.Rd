@@ -12,4 +12,3 @@ respInd(object)
 \description{
 Get individual responses parameters
 }
-

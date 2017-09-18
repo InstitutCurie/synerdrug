@@ -14,4 +14,3 @@ respInd(object) <- value
 \description{
 Set individual responses
 }
-

@@ -24,4 +24,3 @@ Compute the predicted effect under Loewe model
 \examples{
 NULL
 }
-

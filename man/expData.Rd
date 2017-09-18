@@ -12,4 +12,3 @@ expData(object)
 \description{
 Get experimental data
 }
-

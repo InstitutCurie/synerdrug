@@ -23,4 +23,3 @@ Plot individual drug response
 data(exDrugSyn)
 respPlot(exDrugSyn, "drugA")
 }
-

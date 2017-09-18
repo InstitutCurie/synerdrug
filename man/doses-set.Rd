@@ -14,4 +14,3 @@ doses(object) <- value
 \description{
 Set doses values
 }
-

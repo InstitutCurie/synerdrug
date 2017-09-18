@@ -12,4 +12,3 @@ exDrugSyn
 DrugSyn object example
 }
 \keyword{datasets}
-

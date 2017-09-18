@@ -30,4 +30,3 @@ Create DrugSyn object
 object <- makeDrugSyn(synergy, doses = list(drugA = sort(unique(synergy$A)),
 drugB = sort(unique(synergy$B))), content = "Death")
 }
-

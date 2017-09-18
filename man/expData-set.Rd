@@ -14,4 +14,3 @@ expData(object) <- value
 \description{
 Set experimental data
 }
-

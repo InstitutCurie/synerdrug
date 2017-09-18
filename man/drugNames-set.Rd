@@ -14,4 +14,3 @@ drugNames(object) <- value
 \description{
 Set drug names
 }
-

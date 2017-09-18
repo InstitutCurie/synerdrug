@@ -16,8 +16,9 @@ Imports:
     scales,
     shinydashboard,
     shinyBS,
-    cowplot
-RoxygenNote: 5.0.1
+    cowplot,
+    DT
+RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr

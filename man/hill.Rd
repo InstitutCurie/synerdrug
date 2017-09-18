@@ -26,4 +26,3 @@ Hill function
 \examples{
 hill(0.5, 100, 0, 2, 0.5)
 }
-

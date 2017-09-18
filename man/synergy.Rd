@@ -18,4 +18,3 @@ synergy
 Experimental drug synergy data
 }
 \keyword{datasets}
-

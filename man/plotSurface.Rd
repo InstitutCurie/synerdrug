@@ -31,4 +31,3 @@ plotSurface(exDrugSyn, theta = -80)
 ## Loewe excess
 plotSurface(exDrugSyn, what = "LoeweExcess")
 }
-

@@ -17,4 +17,3 @@ Run synerdrug shiny interface
 runSynerDrug()
 }
 }
-

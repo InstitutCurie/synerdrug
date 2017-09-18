@@ -12,4 +12,3 @@ content(object)
 \description{
 Get content type
 }
-

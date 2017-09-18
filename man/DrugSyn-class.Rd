@@ -3,17 +3,17 @@
 \docType{class}
 \name{DrugSyn-class}
 \alias{DrugSyn-class}
-\alias{content,DrugSyn-method}
-\alias{content<-,DrugSyn,character-method}
 \alias{doses,DrugSyn-method}
 \alias{doses<-,DrugSyn,list-method}
-\alias{drugNames,DrugSyn-method}
-\alias{drugNames<-,DrugSyn,vector-method}
 \alias{expData,DrugSyn-method}
 \alias{expData<-,DrugSyn,data.frame-method}
-\alias{plot,DrugSyn-method}
 \alias{respInd,DrugSyn-method}
 \alias{respInd<-,DrugSyn,list-method}
+\alias{drugNames,DrugSyn-method}
+\alias{drugNames<-,DrugSyn,vector-method}
+\alias{content,DrugSyn-method}
+\alias{content<-,DrugSyn,character-method}
+\alias{plot,DrugSyn-method}
 \title{DrugSyn class}
 \usage{
 \S4method{doses}{DrugSyn}(object)
@@ -77,6 +77,7 @@ S4 class to store drug combination data
 
 \item \code{plot}: plot DrugSyn object
 }}
+
 \section{Slots}{
 
 \describe{
@@ -96,6 +97,7 @@ S4 class to store drug combination data
 
 \item{\code{range}}{character}
 }}
+
 \examples{
 data(exDrugSyn)
 ## heatmap
@@ -107,4 +109,3 @@ plot(exDrugSyn, type = "parallel", ref = "drugA")
 ## individual response
 plot(exDrugSyn, type = "ind", drug = "drugB")
 }
-

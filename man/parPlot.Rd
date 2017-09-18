@@ -23,4 +23,3 @@ Plot DrugSyn object as parallel lines
 data(exDrugSyn)
 parPlot(exDrugSyn, ref = "drugA")
 }
-

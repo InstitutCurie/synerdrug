@@ -10,4 +10,6 @@
 #' @importFrom utils modifyList
 #' @import shinydashboard
 #' @import shinyBS
+#' @importFrom DT renderDataTable datatable
+#' 
 NULL

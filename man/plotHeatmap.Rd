@@ -31,4 +31,3 @@ plotHeatmap(exDrugSyn, what = "Loewe")
 ## Chou CI
 plotHeatmap(exDrugSyn, what = "Chou")
 }
-

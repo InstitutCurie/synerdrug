@@ -29,4 +29,3 @@ isobologram(exDrugSyn)
 ## Steel and Peckham isobologram
 isobologram(exDrugSyn, mode = "SP")
 }
-

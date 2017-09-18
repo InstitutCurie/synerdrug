@@ -14,4 +14,3 @@ content(object) <- value
 \description{
 Set content type
 }
-
