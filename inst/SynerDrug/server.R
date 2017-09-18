@@ -272,7 +272,7 @@ shinyServer(function(input, output){
 
     output$dataCombEffect <- DT::renderDataTable({
         d <- getCITable()
-        return(DT::datatable(d, rownames = TRUE, extensions = 'TableTools', options = list(dom = 'lrtip', autowidth = FALSE)))
+        return(DT::datatable(d, rownames = TRUE,  options = list(dom = 'lrtip', autowidth = FALSE)))
     })
 
     output$tableDL <- downloadHandler(filename=function(){paste0(drugA(), "_", drugB(), ".csv")}, content = function(file){
